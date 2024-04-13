@@ -44,6 +44,6 @@ $ make
 Hola mundo!
 $       
 ```
-=> Autores:
+### Autores:
 ##### Matias Davezac <matiasdavezac@gmail.com>
 ##### Alison Alvez <alisonalvez005@gmail.com>
