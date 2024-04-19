@@ -1,3 +1,4 @@
+# Version 0.3
 # Variables internas
 SHELL :=/bin/bash
 CC := gcc
@@ -18,7 +19,9 @@ PROGRAM_NAME := $(BLUE)$(BOLD)(MAKE)=>$(RESET)
 # Variables que podes cambiar
 DEFAULT_OUTPUT := hsh
 CFLAGS := -Wall -Werror -Wextra -pedantic -std=gnu89
+EXTRACFLAGS := 
 OFLAGS := 
+VALGRINDFLAGS := -s --leak-check=full --show-leak-kinds=all
 
 # Ejecutado al hacer "make", despues de revisar los .o
 .PHONY: all
@@ -26,8 +29,6 @@ all: $(OFILES)
 	@echo -e "$(PROGRAM_NAME)$(YELLOW) Linking compiled files...$(RESET)"
 	@$(CC) $(OFLAGS) $^ -o $(DEFAULT_OUTPUT)
 	@echo -e "$(PROGRAM_NAME)$(GREEN) Compilation and linking was successful, dumped in $(DEFAULT_OUTPUT).$(RESET)\n"
-	@echo -e "$(PROGRAM_NAME)$(YELLOW) Running Betty on c files...$(RESET)"
-	@betty *.c
 ifeq ($(strip $(HFILES)),)
 	@wait
 else
@@ -36,14 +37,15 @@ else
 endif
 	@echo -e "$(PROGRAM_NAME)$(GREEN) Betty checks were successful.$(RESET)\n"
 	@echo -e "$(PROGRAM_NAME)$(YELLOW) Running Valgrind...$(RESET)"
-	@valgrind ./$(DEFAULT_OUTPUT)
+	@valgrind $(VALGRINDFLAGS) ./$(DEFAULT_OUTPUT)
 	@echo -e "$(PROGRAM_NAME)$(GREEN) Valgrind check was successful.$(RESET)\n"
-	@echo -e "$(PROGRAM_NAME)$(MAGENTA) All checks passed successfully. Executable file name is '$(DEFAULT_OUTPUT)'$(RESET)"
+	@echo -e "$(PROGRAM_NAME)$(MAGENTA) All checks ran successfully. Executable file name is '$(DEFAULT_OUTPUT)'$(RESET)"
 
 # Si %.o no existe o %.c es nuevo que %.o gececear con -c y cflags
 %.o: %.c
-	@echo -e "$(PROGRAM_NAME)$(YELLOW) Compiling $@...$(RESET)"
-	@$(CC) -c $(CFLAGS) $^ -o $@
+	@echo -e "$(PROGRAM_NAME)$(YELLOW) Compiling $?...$(RESET)"
+	@$(CC) -c $(CFLAGS) $(EXTRACFLAGS) $^ -o $@
+	@betty $?
 
 # Creo que no es ni necesario pero no quero romper todo
 %.c:
