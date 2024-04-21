@@ -8,7 +8,7 @@ First, checker output should be in English. No Spanish, or worse, "Spaninglish".
 However the content of the checker file can be of any language, and doesn't have to pass betty checks.
 Try to make it somewhat readable though.
 
-The naming convention is 'x-checker.c' where x is the task it checks.
+The naming convention is 'x-checker.c' or 'x-checker.sh' where x is the task it checks.
 If you have a compiled file it should be included with the c file and should be named 'x-checker'.
 The executable should work of course. It needs to have executable rights and work as intended.
 
@@ -29,8 +29,8 @@ Test cases depends on the input it needs to test. So a convention cannot be univ
 
 ---
 
-Successful checks shold be marked with "[\033[32mSuccess\033[0m]"
-Failed checks shoulde be marked by "[\033[31mFailure\033[0m]"
+Successful checks shold be marked with "[\033[32mSUCCESS\033[0m]"
+Failed checks shoulde be marked by "[\033[31mFAILURE\033[0m]"
 
 These things are called "ANSI escape codes" and signals to the terminal how to format text.
 "\033[0m" is called reset, as it resets all values to the default.
@@ -40,25 +40,25 @@ The checks written above are just [Success] and [Failure] but colored accordingl
 
 If you print to the terminal by echo, remember to use -e as it normally doesn't recognize backslashes.
 
-Between each test case there should be an empty line in between.
+There should be an empty line between the test cases and the results, and between the introduction and test cases if there is one.
 Text of each test case is up to the creator, but should be as descriptive as possible.
-Don't write test#1 test#2.
-
-If you can show the output of what you checked, the better.
+Don't just write test#1 test#2, make it so the one using the checker know what to fix if it fails.
 
 At the end it should display how many checks were made and how many were successful.
 You can skip this if you only have 1 or 2 test cases.
+
+Don't worry if you don't follow the format to the letter. Later we can change it if needed.
+But try to follow the basics so the needed changes are fewer.
 
 I don't have universal examples but these should suffice for the format.
 Examples of a checker:
 
 $ ./x-checker
+Running checks on Task 0:
+
 #1 Betty check [FAILURE]
-
 #2 Executes the ls command with no arguments [SUCCESS]
-
 #3 Executes the mkdir command with no arguments [FAILURE]
-
 #4 Valgrind check [SUCCESS]
 
 2/4 successful tests.
